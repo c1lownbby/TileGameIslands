@@ -29,7 +29,7 @@ public class WorldGenerator {
 
         for(int r = 0; r < worldIntMap.length; r++){
             for(int c = 0; c < worldIntMap[r].length; c++) {
-                Vector2 tempVectore = new Vector2(r,c);
+                Vector2 tempVectore = new Vector2(c,r);
                 if(tempVectore.dst(mapSeed) < 10) {
                     worldIntMap[r][c] = 2;
                 }
@@ -39,7 +39,8 @@ public class WorldGenerator {
 
         //call methods to build 2D array
         //randomize();
-        leftCoast();
+        //leftCoast();
+        setWater();
 
         Gdx.app.error("WorldGenerator", "WorldGenerator(WorldTile[][][])");
         generateWorldTextFile();
@@ -58,11 +59,23 @@ public class WorldGenerator {
         return returnString;
     }
 
-    public void leftCoast() {
+    /*public void leftCoast() {
         for(int r = 0; r < worldIntMap.length; r++) {
             for(int c = 0; c < worldIntMap[r].length; c++) {
                 if(c <10) {
-                    worldIntMap[r][c] = 5;
+                    worldIntMap[r][c] = 3;
+                }
+            }
+        }
+    }
+
+     */
+
+    public void setWater() {
+        for(int r = 0; r < worldIntMap.length; r++) {
+            for(int c = 0; c < worldIntMap[r].length; c++){
+                if(c >= 0) {
+                    worldIntMap[r][c] = 20;
                 }
             }
         }
