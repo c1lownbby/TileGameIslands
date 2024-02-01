@@ -24,7 +24,7 @@ public class WorldGenerator {
         worldIntMap = new int[worldMapRows][worldMapColumns];
 
         seedColor = 24;
-        lightGreen = 86;
+        lightGreen = 23;
 
 
         Vector2 mapSeed = new Vector2(MathUtils.random(worldIntMap[0].length), MathUtils.random(worldIntMap.length));
@@ -46,11 +46,12 @@ public class WorldGenerator {
         //randomize();
         setWater();
         seedIslands(5);
-        searchAndExpand(10, seedColor, lightGreen, 0.99 );
-        searchAndExpand(8, seedColor, 80, 0.85 );
-        searchAndExpand(6, seedColor, 62, 0.55 );
-        searchAndExpand(5, seedColor, 38, 0.65 );
-        searchAndExpand(4, seedColor, 54, 0.25 );
+        searchAndExpand(4, seedColor, lightGreen, .0 );
+        searchAndExpand(5, seedColor, 19, .85 );
+        searchAndExpand(2, seedColor, 18, .75 );
+        searchAndExpand(8, seedColor, 17, .55 );
+        searchAndExpand(4, seedColor, 16, 0.55 );
+
 
 
 
@@ -78,7 +79,6 @@ public class WorldGenerator {
                             if (subRow >= 0 && subCol >= 0 && subRow <= worldIntMap.length - 1 && subCol <= worldIntMap[0].length - 1 && worldIntMap[subRow][subCol] != numToFind) {
                                 if(Math.random() > probability) {
                                     worldIntMap[subRow][subCol] = numToWrite;
-
                                 }
                             }
 
@@ -125,43 +125,12 @@ public class WorldGenerator {
         return returnString;
     }
 
-    /*public void leftCoast() {
-        for(int r = 0; r < worldIntMap.length; r++) {
-            for(int c = 0; c < worldIntMap[r].length; c++) {
-                if(c <10) {
-                    worldIntMap[r][c] = 3;
-                }
-            }
-        }
-    }
-/
-     */
-
-
-
-    public void setSeed() {
-        Vector2 mapSeed = new Vector2(MathUtils.random(worldIntMap[0].length), MathUtils.random(worldIntMap.length));
-        System.out.println(mapSeed.y + " " + mapSeed.x);
-
-        worldIntMap[(int)mapSeed.y][(int)mapSeed.x] = 1;
-
-        for(int r = 0; r < worldIntMap.length; r++){
-            for(int c = 0; c < worldIntMap[r].length; c++) {
-                Vector2 tempVectore = new Vector2(c,r);
-                if(tempVectore.dst(mapSeed) <= 0) {
-                    worldIntMap[r][c] = 24 ;
-                }
-            }
-        }
-    }
-
-
 
     public void setWater() {
         for(int r = 0; r < worldIntMap.length; r++) {
             for(int c = 0; c < worldIntMap[r].length; c++){
                 if(c >= 0) {
-                    worldIntMap[r][c] = 27;
+                    worldIntMap[r][c] = 28;
                 }
             }
         }
