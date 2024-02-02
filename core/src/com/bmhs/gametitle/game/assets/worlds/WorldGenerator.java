@@ -27,10 +27,30 @@ public class WorldGenerator {
         lightGreen = 23;
 
 
-        Vector2 mapSeed = new Vector2(MathUtils.random(worldIntMap[0].length), MathUtils.random(worldIntMap.length));
-        System.out.println(mapSeed.y + " " + mapSeed.x);
+      // Vector2 mapSeed = new Vector2(MathUtils.random(worldIntMap[0].length), MathUtils.random(worldIntMap.length));
+        //System.out.println(mapSeed.y + " " + mapSeed.x);
 
-        worldIntMap[(int) mapSeed.y][(int) mapSeed.x] = 4;
+      //  worldIntMap[(int) mapSeed.y][(int) mapSeed.x] = 4;
+
+
+
+        //call methods to build 2D array
+        //randomize();
+
+
+
+        //setWater();
+
+        //seedIslands(5);
+        searchAndExpand(4, seedColor, lightGreen, .0 );
+        searchAndExpand(5, seedColor, 19, .25 );
+        searchAndExpand(2, seedColor, 18, .75 );
+        searchAndExpand(8, seedColor, 17, .65 );
+        searchAndExpand(4, seedColor, 16, 0.55 );
+
+        Vector2 mapSeed = new Vector2(10, 20);
+
+        worldIntMap[(int)mapSeed.y][(int)mapSeed.x] = seedColor;
 
         for (int r = 0; r < worldIntMap.length; r++) {
             for (int c = 0; c < worldIntMap[r].length; c++) {
@@ -41,17 +61,6 @@ public class WorldGenerator {
 
             }
         }
-
-        //call methods to build 2D array
-        //randomize();
-        setWater();
-        seedIslands(5);
-        searchAndExpand(4, seedColor, lightGreen, .0 );
-        searchAndExpand(5, seedColor, 19, .85 );
-        searchAndExpand(2, seedColor, 18, .75 );
-        searchAndExpand(8, seedColor, 17, .55 );
-        searchAndExpand(4, seedColor, 16, 0.55 );
-
 
 
 
@@ -93,7 +102,6 @@ public class WorldGenerator {
     private void searchAndExpand(int radius) {
         for(int r = 0; r < worldIntMap.length; r++){
             for(int c = 0; c < worldIntMap[r].length; c++){
-
                 if(worldIntMap[r][c] == seedColor) {
 
                     for(int subRow = r-radius; subRow <= r+radius; subRow++){
