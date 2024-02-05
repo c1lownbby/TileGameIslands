@@ -39,9 +39,9 @@ public class WorldGenerator {
 
 
 
-        //setWater();
+        setWater();
 
-        //seedIslands(5);
+        seedIslands(5);
         searchAndExpand(4, seedColor, lightGreen, .0 );
         searchAndExpand(5, seedColor, 19, .25 );
         searchAndExpand(2, seedColor, 18, .75 );
