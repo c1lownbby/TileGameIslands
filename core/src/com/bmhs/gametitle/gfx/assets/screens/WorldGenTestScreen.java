@@ -161,7 +161,7 @@ public class WorldGenTestScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             player.adjustX(10);
         }
-
+//
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             game.setScreen(parent);
         }
