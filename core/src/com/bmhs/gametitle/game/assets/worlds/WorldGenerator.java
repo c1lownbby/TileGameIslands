@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.bmhs.gametitle.gfx.assets.tiles.statictiles.WorldTile;
 import com.bmhs.gametitle.gfx.utils.TileHandler;
 
+import java.util.Random;
+
 
 public class WorldGenerator {
 
@@ -23,8 +25,10 @@ public class WorldGenerator {
 
         worldIntMap = new int[worldMapRows][worldMapColumns];
 
-        seedColor = 24;
+        seedColor = 21;
         lightGreen = 23;
+
+
 
 
       // Vector2 mapSeed = new Vector2(MathUtils.random(worldIntMap[0].length), MathUtils.random(worldIntMap.length));
@@ -39,28 +43,19 @@ public class WorldGenerator {
 
 
 
+
+
         setWater();
+        createClusters(5, 10);
+        seedIslands(9);
+        searchAndExpand(100, seedColor, 27, .3);
+        searchAndExpand(60, seedColor, 26, .4);
+        searchAndExpand(55, seedColor, 25, .5 );
+        searchAndExpand(35, seedColor, 24, .7 );
+       searchAndExpand(24, seedColor, 23, .75 );
+       searchAndExpand(16, seedColor,  22, .85 );
 
-        seedIslands(5);
-        searchAndExpand(4, seedColor, lightGreen, .0 );
-        searchAndExpand(5, seedColor, 19, .25 );
-        searchAndExpand(2, seedColor, 18, .75 );
-        searchAndExpand(8, seedColor, 17, .65 );
-        searchAndExpand(4, seedColor, 16, 0.55 );
 
-        Vector2 mapSeed = new Vector2(10, 20);
-
-        worldIntMap[(int)mapSeed.y][(int)mapSeed.x] = seedColor;
-
-        for (int r = 0; r < worldIntMap.length; r++) {
-            for (int c = 0; c < worldIntMap[r].length; c++) {
-                Vector2 tempVectore = new Vector2(c, r);
-                if (tempVectore.dst(mapSeed) < 10) {
-                    worldIntMap[r][c] = 2;
-                }
-
-            }
-        }
 
 
 
@@ -71,6 +66,25 @@ public class WorldGenerator {
         generateWorldTextFile();
     }
 
+
+    private void createClusters(int clusters, int clusterSize) {
+        Random random = new Random();
+
+        for (int i = 0; i < clusters; i++) {
+            int rSeed = random.nextInt(worldIntMap.length);
+            int cSeed = random.nextInt(worldIntMap[0].length);
+            worldIntMap[rSeed][cSeed] = seedColor;
+            for (int x = 0; x < clusterSize; x++) {
+                int newRow = rSeed + random.nextInt(14)-1;
+                int newCol = cSeed +  random.nextInt(6)-1;
+                if (newRow >= 0 && newRow < worldIntMap.length && newCol >= 0 && newCol < worldIntMap[0].length &&
+                        worldIntMap[newRow][newCol] != seedColor) {
+                    worldIntMap[newRow][newCol] = seedColor;
+                }
+            }
+        }
+    }
+
     private void seedIslands(int num) {
         for (int i = 0; i < num; i++) {
             int rSeed = MathUtils.random(worldIntMap.length - 1);
@@ -79,15 +93,24 @@ public class WorldGenerator {
         }
     }
 
+
+
+
     private void searchAndExpand(int radius, int numToFind, int numToWrite, double probability) {
+
         for (int r = 0; r < worldIntMap.length; r++) {
             for (int c = 0; c < worldIntMap[r].length; c++) {
                 if (worldIntMap[r][c] == numToFind) {
                     for (int subRow = r - radius; subRow <= r + radius; subRow++) {
                         for (int subCol = c - radius; subCol <= c + radius; subCol++) {
                             if (subRow >= 0 && subCol >= 0 && subRow <= worldIntMap.length - 1 && subCol <= worldIntMap[0].length - 1 && worldIntMap[subRow][subCol] != numToFind) {
-                                if(Math.random() > probability) {
+                                double rowR = subRow - r;
+                                double ColC = subCol - c;
+                                double rowAndColumnSqrd = (rowR*rowR) + (ColC*ColC);
+                                double reworkedProbability = probability * (rowAndColumnSqrd/radius);
+                                if(Math.random() > reworkedProbability) {
                                     worldIntMap[subRow][subCol] = numToWrite;
+
                                 }
                             }
 
@@ -98,6 +121,10 @@ public class WorldGenerator {
             }
         }
     }
+
+
+
+
 
     private void searchAndExpand(int radius) {
         for(int r = 0; r < worldIntMap.length; r++){
@@ -119,6 +146,7 @@ public class WorldGenerator {
         }
     }
     }
+
 
     public String getWorld3DArrayToString() {
         String returnString = "";
